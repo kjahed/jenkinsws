@@ -1,10 +1,15 @@
 pipeline {
     agent any
     stages {
-        stage("Print") {
+        stage("Init") {
             steps {
-                sh "echo 'Hello World!'"
+                sh "python -m venv .venv"
+                sh ". .venv/bin/activate && pip install -r requirements.txt"
             }
+        }
+
+        stage("Test") {
+            sh ". .venv/bin/activate && pytest tests/"
         }
     }
 }
