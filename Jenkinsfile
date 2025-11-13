@@ -10,8 +10,15 @@ pipeline {
 
         stage("Test") {
             steps {
-                sh ". .venv/bin/activate && pytest tests/"
+                sh ". .venv/bin/activate && pytest tests/ --junitxml=reports/junit.xml"
             }
+        }
+    }
+
+    post {
+        always {
+            junit 'reports/junit.xml'
+            archiveArtifacts artifacts: 'reports/**', allowEmptyArchive: true
         }
     }
 }
