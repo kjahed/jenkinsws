@@ -9,7 +9,9 @@ pipeline {
         }
 
         stage("Test") {
-            sh ". .venv/bin/activate && pytest tests/"
+            steps {
+                sh ". .venv/bin/activate && pytest tests/"
+            }
         }
     }
 }
