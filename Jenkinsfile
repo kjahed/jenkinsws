@@ -1,16 +1,17 @@
 pipeline {
-    agent { label 'python'}
+    agent { 
+        dockerContainer { image 'python:3.11' }
+    }
     stages {
         stage("Init") {
             steps {
-                sh "python -m venv .venv"
-                sh ". .venv/bin/activate && pip install -r requirements.txt"
+                sh "pip install -r requirements.txt"
             }
         }
 
         stage("Test") {
             steps {
-                sh ". .venv/bin/activate && pytest tests/ --junitxml=reports/junit.xml"
+                sh "pytest tests/ --junitxml=reports/junit.xml"
             }
         }
     }
